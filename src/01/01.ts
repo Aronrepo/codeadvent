@@ -1,11 +1,11 @@
 import * as fs from 'fs';
 
+function  sumOfAllOfTheCalibrationValue(filePath: string): number {
+
 let fileContent: string | undefined; 
 
-const filePath = './input1.txt';
 
 try {
-  const filePath = './input1.txt';
 
   fileContent = fs.readFileSync(filePath, 'utf-8');//read input file
 
@@ -52,7 +52,9 @@ sumOfLine += parseInt(concatenatedString);
 
 
 });
+return sumOfLine;
+} 
+console.log(sumOfAllOfTheCalibrationValue('./input1.txt'));
 
-console.log(sumOfLine);
 
-
+export default sumOfAllOfTheCalibrationValue;
