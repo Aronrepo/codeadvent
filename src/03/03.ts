@@ -2,10 +2,10 @@ import * as fs from 'fs';
 
 let fileContent: string | undefined; 
 
-const filePath = './input.txt';
+const filePath = './input3.txt';
 
 try {
-  const filePath = './input.txt';
+  const filePath = './input3.txt';
 
   fileContent = fs.readFileSync(filePath, 'utf-8');
 
@@ -21,7 +21,7 @@ lines?.forEach((line, lineIndex) => {
 
     let lineArr : string[] = line.split('');
     lineArr.forEach((char, charIndex) => {
-        if(char === '*' && lineIndex > 0) {
+        if(!/[0-9.]/.test(char) && lineIndex > 0) {
             
             sum += searchAround(lines, lineIndex, charIndex)
             
@@ -35,9 +35,8 @@ console.log(sum);
 
 
 function searchAround(lines: string[] | undefined, lineIndex : number, charIndex : number) : number {
-    let searchSum : number = 1;
+    let searchSum : number = 0;
     let searchedChars : string = '';
-    let numberOfGears : number = 0;
 
     if(lines) {
         
@@ -53,9 +52,9 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
         }
 
         if(searchedChars !== '') {
-            searchSum *= parseInt(searchedChars);
-            numberOfGears ++;
+            searchSum += parseInt(searchedChars);
         }
+        
         console.log(searchedChars);
         
 
@@ -73,8 +72,7 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
         }
 
         if(searchedChars !== '') {
-            searchSum *= parseInt(searchedChars);
-            numberOfGears ++;
+            searchSum += parseInt(searchedChars);
         } 
         console.log(searchedChars);
         searchedChars = '';
@@ -117,8 +115,7 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
         }
 
         if(searchedChars !== '') {
-            searchSum *= parseInt(searchedChars);
-            numberOfGears ++;
+            searchSum += parseInt(searchedChars);
         } 
 
         if(previousLine[charIndex] === '.' && /[0-9]/.test(previousLine[charIndex - 1]) && /[0-9]/.test(previousLine[charIndex + 1]) ) {
@@ -130,8 +127,7 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
             i++;
             }
             if(searchedChars !== '') {
-                searchSum *= parseInt(searchedChars);
-                numberOfGears ++;
+                searchSum += parseInt(searchedChars);
             } 
             console.log(searchedChars);
             
@@ -142,8 +138,7 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
             i++;
             }
             if(searchedChars !== '') {
-                searchSum *= parseInt(searchedChars);
-                numberOfGears ++;
+                searchSum += parseInt(searchedChars);
             } 
             console.log(searchedChars);
             
@@ -190,8 +185,7 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
         }
 
         if(searchedChars !== '') {
-            searchSum *= parseInt(searchedChars);
-            numberOfGears ++;
+            searchSum += parseInt(searchedChars);
         } 
         
         if(nextLine[charIndex] === '.' && /[0-9]/.test(nextLine[charIndex - 1]) && /[0-9]/.test(nextLine[charIndex + 1]) ) {
@@ -203,8 +197,7 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
             i++;
             }
             if(searchedChars !== '') {
-                searchSum *= parseInt(searchedChars);
-                numberOfGears ++;
+                searchSum += parseInt(searchedChars);
             } 
             console.log(searchedChars);
             
@@ -215,8 +208,7 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
             i++;
             }
             if(searchedChars !== '') {
-                searchSum *= parseInt(searchedChars);
-                numberOfGears ++;
+                searchSum += parseInt(searchedChars);
             } 
             console.log(searchedChars);
             
@@ -226,8 +218,6 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
 
         
     }
-    if (numberOfGears === 2) {
-        return searchSum;
-    }
-    return 0;
+
+    return searchSum;
 }

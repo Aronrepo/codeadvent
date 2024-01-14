@@ -2,10 +2,10 @@ import * as fs from 'fs';
 
 let fileContent: string | undefined; 
 
-const filePath = './dist/input.txt';
+const filePath = './dist/input4.txt';
 
 try {
-  const filePath = './dist/input.txt';
+  const filePath = './dist/input4.txt';
 
   fileContent = fs.readFileSync(filePath, 'utf-8');
 
