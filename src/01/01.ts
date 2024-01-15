@@ -9,7 +9,7 @@ function sumOfAllOfTheCalibrationValue(filePath: string): number {
     console.error("Error reading the file:", err);
   }
 
-  const lines = fileContent?.split("\n"); //split input files into arrays of
+  const lines = fileContent?.split("\n"); //split input file's lines into arrays
   let sumOfLine: number = 0;
   lines?.forEach((line, index) => {
     //Iterate over the lines
