@@ -29,7 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
 const _01_1 = __importDefault(require("./01"));
 jest.mock('fs');
-describe('yourFunction', () => {
+describe('sumOfAllOfTheCalibrationValue', () => {
     it('should calculate the sum correctly', () => {
         const mockReadFileSync = jest.spyOn(fs, 'readFileSync').mockReturnValue('123abc\n456def\n789ghi');
         const result = (0, _01_1.default)('./mocked-file.txt');
