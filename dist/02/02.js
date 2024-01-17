@@ -24,38 +24,43 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
-let fileContent;
-const filePath = './input2.txt';
-try {
-    const filePath = './input2.txt';
-    fileContent = fs.readFileSync(filePath, 'utf-8');
-}
-catch (err) {
-    console.error('Error reading the file:', err);
-}
-const lines = fileContent === null || fileContent === void 0 ? void 0 : fileContent.split(/\r?\n/);
-let counter = 0;
-lines === null || lines === void 0 ? void 0 : lines.forEach((line) => {
-    let possible = true;
-    let actualGameNumber = parseInt(line.split(':')[0].split(' ')[1]);
-    let actualColors = line.split(':')[1].trim();
-    let sets = actualColors.split(';');
-    sets.forEach((oneSet) => {
-        let setArr = oneSet.split(',').map(a => a.trim());
-        setArr.forEach((cube) => {
-            if (cube.split(' ')[1] === 'red' && parseInt(cube.split(' ')[0]) > 12) {
-                possible = false;
-            }
-            if (cube.split(' ')[1] === 'green' && parseInt(cube.split(' ')[0]) > 13) {
-                possible = false;
-            }
-            if (cube.split(' ')[1] === 'blue' && parseInt(cube.split(' ')[0]) > 14) {
-                possible = false;
-            }
-        });
-    });
-    if (possible) {
-        counter += actualGameNumber;
+function sumOfTheSets(filePath) {
+    let fileContent;
+    try {
+        fileContent = fs.readFileSync(filePath, "utf-8");
     }
-});
-console.log(counter);
+    catch (err) {
+        console.error("Error reading the file:", err);
+    }
+    const lines = fileContent === null || fileContent === void 0 ? void 0 : fileContent.split(/\r?\n/);
+    let counter = 0;
+    lines === null || lines === void 0 ? void 0 : lines.forEach((line) => {
+        let possible = true;
+        let actualGameNumber = parseInt(line.split(":")[0].split(" ")[1]);
+        let actualColors = line.split(":")[1].trim();
+        let sets = actualColors.split(";");
+        sets.forEach((oneSet) => {
+            let setArr = oneSet.split(",").map((a) => a.trim());
+            setArr.forEach((cube) => {
+                if (cube.split(" ")[1] === "red" &&
+                    parseInt(cube.split(" ")[0]) > 12) {
+                    possible = false;
+                }
+                if (cube.split(" ")[1] === "green" &&
+                    parseInt(cube.split(" ")[0]) > 13) {
+                    possible = false;
+                }
+                if (cube.split(" ")[1] === "blue" &&
+                    parseInt(cube.split(" ")[0]) > 14) {
+                    possible = false;
+                }
+            });
+        });
+        if (possible) {
+            counter += actualGameNumber;
+        }
+    });
+    return counter;
+}
+console.log(sumOfTheSets("./input2.txt"));
+exports.default = sumOfTheSets;

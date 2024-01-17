@@ -27,16 +27,16 @@ const fs = __importStar(require("fs"));
 function sumOfAllOfTheCalibrationValue(filePath) {
     let fileContent;
     try {
-        fileContent = fs.readFileSync(filePath, 'utf-8');
+        fileContent = fs.readFileSync(filePath, "utf-8");
     }
     catch (err) {
-        console.error('Error reading the file:', err);
+        console.error("Error reading the file:", err);
     }
-    const lines = fileContent === null || fileContent === void 0 ? void 0 : fileContent.split('\n');
+    const lines = fileContent === null || fileContent === void 0 ? void 0 : fileContent.split("\n");
     let sumOfLine = 0;
     lines === null || lines === void 0 ? void 0 : lines.forEach((line, index) => {
         let actualLine = line;
-        let arr = actualLine.split('');
+        let arr = actualLine.split("");
         let firstNumber;
         let lastNumber;
         for (const word of arr) {
@@ -53,12 +53,12 @@ function sumOfAllOfTheCalibrationValue(filePath) {
                 break;
             }
         }
-        const firstNumberStr = (firstNumber === null || firstNumber === void 0 ? void 0 : firstNumber.toString()) || '';
-        const lastNumberStr = (lastNumber === null || lastNumber === void 0 ? void 0 : lastNumber.toString()) || '';
+        const firstNumberStr = (firstNumber === null || firstNumber === void 0 ? void 0 : firstNumber.toString()) || "";
+        const lastNumberStr = (lastNumber === null || lastNumber === void 0 ? void 0 : lastNumber.toString()) || "";
         const concatenatedString = firstNumberStr + lastNumberStr;
         sumOfLine += parseInt(concatenatedString);
     });
     return sumOfLine;
 }
-console.log(sumOfAllOfTheCalibrationValue('./input1.txt'));
+console.log(sumOfAllOfTheCalibrationValue("./input1.txt"));
 exports.default = sumOfAllOfTheCalibrationValue;
