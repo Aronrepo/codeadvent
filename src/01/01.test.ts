@@ -3,7 +3,7 @@ import sumOfAllOfTheCalibrationValue from './01';
 
 jest.mock('fs');
 
-describe('yourFunction', () => {
+describe('sumOfAllOfTheCalibrationValue', () => {
   it('should calculate the sum correctly', () => {
     const mockReadFileSync = jest.spyOn(fs, 'readFileSync').mockReturnValue('123abc\n456def\n789ghi');
     // Replace the argument with the actual file content you want to test
