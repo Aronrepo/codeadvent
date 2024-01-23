@@ -3,5 +3,5 @@
 server/.env
 node_modules/
 jspm_packages/
-/dist
+dist/
 
