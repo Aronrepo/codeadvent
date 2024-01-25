@@ -114,10 +114,6 @@ function searchAround(lines, lineIndex, charIndex) {
                 i++;
             }
             i = 1;
-            while (/[0-9]/.test(previousLine[charIndex + i]) && i <= 3) {
-                searchedChars = searchedChars + previousLine[charIndex + i];
-                i++;
-            }
         }
         else if (previousLine[charIndex - 1] === ".") {
             let i = 1;
@@ -126,10 +122,6 @@ function searchAround(lines, lineIndex, charIndex) {
                 i++;
             }
             i = 1;
-            while (/[0-9]/.test(previousLine[charIndex - i]) && i <= 3) {
-                searchedChars = previousLine[charIndex - i] + searchedChars;
-                i++;
-            }
         }
         if (searchedChars !== "") {
             searchSum += parseInt(searchedChars);
@@ -193,21 +185,11 @@ function searchAround(lines, lineIndex, charIndex) {
                 searchedChars = nextLine[charIndex - i] + searchedChars;
                 i++;
             }
-            i = 1;
-            while (/[0-9]/.test(nextLine[charIndex + i]) && i <= 3) {
-                searchedChars = searchedChars + nextLine[charIndex + i];
-                i++;
-            }
         }
         else if (nextLine[charIndex - 1] === ".") {
             let i = 1;
             while (/[0-9]/.test(nextLine[charIndex + i]) && i <= 3) {
                 searchedChars = searchedChars + nextLine[charIndex + i];
-                i++;
-            }
-            i = 1;
-            while (/[0-9]/.test(nextLine[charIndex - i]) && i <= 3) {
-                searchedChars = nextLine[charIndex - i] + searchedChars;
                 i++;
             }
         }
