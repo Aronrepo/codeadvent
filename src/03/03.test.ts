@@ -50,6 +50,6 @@ describe('searchAround function', () => {
 
     const result = searchAround(lines, 1, 3);
 
-    expect(result).toBe(502); // Replace 17 with the expected result based on your input
+    expect(result).toBe(502);
   });
 });
