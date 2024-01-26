@@ -1,11 +1,11 @@
 import * as fs from 'fs';
 
+function sumOfAllGears(filePath: string):number {
+
+
 let fileContent: string | undefined; 
 
-const filePath = './input3.txt';
-
 try {
-  const filePath = './input3.txt';
 
   fileContent = fs.readFileSync(filePath, 'utf-8');
 
@@ -30,9 +30,9 @@ lines?.forEach((line, lineIndex) => {
     })
 
 })
+return sum;
 
-console.log(sum);
-
+}
 
 function searchAround(lines: string[] | undefined, lineIndex : number, charIndex : number) : number {
     let searchSum : number = 1;
@@ -44,7 +44,7 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
         for(let i = 1; i <=3; i++) {
             let actualLine = lines[lineIndex].split('');
             if (/[0-9]/.test(actualLine[charIndex - i])) {
-                searchedChars = actualLine[charIndex - i] + searchedChars
+                searchedChars = actualLine[charIndex - i] + searchedChars//555* - check numbers on the left
                 
             } else {
                 break;
@@ -56,7 +56,6 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
             searchSum *= parseInt(searchedChars);
             numberOfGears ++;
         }
-        console.log(searchedChars);
         
 
         searchedChars = '';
@@ -64,7 +63,7 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
         for(let i = 1; i <=3; i++) {
             let actualLine = lines[lineIndex].split('');
             if (/[0-9]/.test(actualLine[charIndex + i])) {
-                searchedChars = searchedChars + actualLine[charIndex + i];
+                searchedChars = searchedChars + actualLine[charIndex + i];//555* - check numbers on the left
                 
             } else {
                 break;
@@ -76,11 +75,34 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
             searchSum *= parseInt(searchedChars);
             numberOfGears ++;
         } 
-        console.log(searchedChars);
         searchedChars = '';
 
         let previousLine = lines[lineIndex - 1].split('');
 
+        //the logic checks the different scenarios
+        //555
+        // *
+
+        //.5.
+        // *
+
+        //.55
+        // *
+            //.555
+            // *
+        
+        //55.
+        // *
+            //555.
+            //  *
+        
+        //else if + while
+        //555..
+        //   *
+
+        //else if + while
+        //..555
+        // *
         if(/[0-9]/.test(previousLine[charIndex]) && /[0-9]/.test(previousLine[charIndex - 1]) && /[0-9]/.test(previousLine[charIndex + 1])) {
             searchedChars = searchedChars + previousLine[charIndex - 1] + previousLine[charIndex] + previousLine[charIndex + 1];
         } else if (/[0-9]/.test(previousLine[charIndex]) && previousLine[charIndex - 1] === '.' && previousLine[charIndex + 1] === '.') {
@@ -97,11 +119,6 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
                 searchedChars = previousLine[charIndex - i] + searchedChars;
             i++;
             }
-            i = 1;
-            while(/[0-9]/.test(previousLine[charIndex + i]) && i <= 3) {
-                searchedChars = searchedChars + previousLine[charIndex + i];
-            i++;
-            }
 
         } else if (previousLine[charIndex - 1] === '.'){
             let i:number = 1;
@@ -109,22 +126,18 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
                 searchedChars = searchedChars + previousLine[charIndex + i];
             i++;
             }
-            i = 1;
-            while(/[0-9]/.test(previousLine[charIndex - i]) && i <= 3) {
-                searchedChars = previousLine[charIndex - i] + searchedChars;
-            i++;
-            }
+
         }
 
         if(searchedChars !== '') {
             searchSum *= parseInt(searchedChars);
             numberOfGears ++;
         } 
-
+        //<-5.5->
+        // *
         if(previousLine[charIndex] === '.' && /[0-9]/.test(previousLine[charIndex - 1]) && /[0-9]/.test(previousLine[charIndex + 1]) ) {
             
             let i:number = 1;
-
             while(/[0-9]/.test(previousLine[charIndex - i]) && i <= 3) {
                 searchedChars = previousLine[charIndex - i] + searchedChars;
             i++;
@@ -133,8 +146,6 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
                 searchSum *= parseInt(searchedChars);
                 numberOfGears ++;
             } 
-            console.log(searchedChars);
-            
             searchedChars = ''
             i = 1;
             while(/[0-9]/.test(previousLine[charIndex + i]) && i <= 3) {
@@ -145,13 +156,12 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
                 searchSum *= parseInt(searchedChars);
                 numberOfGears ++;
             } 
-            console.log(searchedChars);
             
         }
 
 
         searchedChars = ''
-        
+        //same logic but below
         let nextLine = lines[lineIndex + 1].split('');
 
         if(/[0-9]/.test(nextLine[charIndex]) && /[0-9]/.test(nextLine[charIndex - 1]) && /[0-9]/.test(nextLine[charIndex + 1])) {
@@ -206,7 +216,6 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
                 searchSum *= parseInt(searchedChars);
                 numberOfGears ++;
             } 
-            console.log(searchedChars);
             
             searchedChars = ''
             i = 1;
@@ -218,7 +227,6 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
                 searchSum *= parseInt(searchedChars);
                 numberOfGears ++;
             } 
-            console.log(searchedChars);
             
         }
 
@@ -226,8 +234,13 @@ function searchAround(lines: string[] | undefined, lineIndex : number, charIndex
 
         
     }
+    //number of gears should be exactly two
     if (numberOfGears === 2) {
         return searchSum;
     }
     return 0;
 }
+
+console.log(sumOfAllGears("./input3.txt"));
+
+export {sumOfAllGears, searchAround}

@@ -23,27 +23,29 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.searchAround = exports.sumOfAllGears = void 0;
 const fs = __importStar(require("fs"));
-let fileContent;
-const filePath = './input3.txt';
-try {
-    const filePath = './input3.txt';
-    fileContent = fs.readFileSync(filePath, 'utf-8');
-}
-catch (err) {
-    console.error('Error reading the file:', err);
-}
-const lines = fileContent === null || fileContent === void 0 ? void 0 : fileContent.split(/\r?\n/);
-let sum = 0;
-lines === null || lines === void 0 ? void 0 : lines.forEach((line, lineIndex) => {
-    let lineArr = line.split('');
-    lineArr.forEach((char, charIndex) => {
-        if (char === '*' && lineIndex > 0) {
-            sum += searchAround(lines, lineIndex, charIndex);
-        }
+function sumOfAllGears(filePath) {
+    let fileContent;
+    try {
+        fileContent = fs.readFileSync(filePath, 'utf-8');
+    }
+    catch (err) {
+        console.error('Error reading the file:', err);
+    }
+    const lines = fileContent === null || fileContent === void 0 ? void 0 : fileContent.split(/\r?\n/);
+    let sum = 0;
+    lines === null || lines === void 0 ? void 0 : lines.forEach((line, lineIndex) => {
+        let lineArr = line.split('');
+        lineArr.forEach((char, charIndex) => {
+            if (char === '*' && lineIndex > 0) {
+                sum += searchAround(lines, lineIndex, charIndex);
+            }
+        });
     });
-});
-console.log(sum);
+    return sum;
+}
+exports.sumOfAllGears = sumOfAllGears;
 function searchAround(lines, lineIndex, charIndex) {
     let searchSum = 1;
     let searchedChars = '';
@@ -62,7 +64,6 @@ function searchAround(lines, lineIndex, charIndex) {
             searchSum *= parseInt(searchedChars);
             numberOfGears++;
         }
-        console.log(searchedChars);
         searchedChars = '';
         for (let i = 1; i <= 3; i++) {
             let actualLine = lines[lineIndex].split('');
@@ -77,7 +78,6 @@ function searchAround(lines, lineIndex, charIndex) {
             searchSum *= parseInt(searchedChars);
             numberOfGears++;
         }
-        console.log(searchedChars);
         searchedChars = '';
         let previousLine = lines[lineIndex - 1].split('');
         if (/[0-9]/.test(previousLine[charIndex]) && /[0-9]/.test(previousLine[charIndex - 1]) && /[0-9]/.test(previousLine[charIndex + 1])) {
@@ -104,21 +104,11 @@ function searchAround(lines, lineIndex, charIndex) {
                 searchedChars = previousLine[charIndex - i] + searchedChars;
                 i++;
             }
-            i = 1;
-            while (/[0-9]/.test(previousLine[charIndex + i]) && i <= 3) {
-                searchedChars = searchedChars + previousLine[charIndex + i];
-                i++;
-            }
         }
         else if (previousLine[charIndex - 1] === '.') {
             let i = 1;
             while (/[0-9]/.test(previousLine[charIndex + i]) && i <= 3) {
                 searchedChars = searchedChars + previousLine[charIndex + i];
-                i++;
-            }
-            i = 1;
-            while (/[0-9]/.test(previousLine[charIndex - i]) && i <= 3) {
-                searchedChars = previousLine[charIndex - i] + searchedChars;
                 i++;
             }
         }
@@ -136,7 +126,6 @@ function searchAround(lines, lineIndex, charIndex) {
                 searchSum *= parseInt(searchedChars);
                 numberOfGears++;
             }
-            console.log(searchedChars);
             searchedChars = '';
             i = 1;
             while (/[0-9]/.test(previousLine[charIndex + i]) && i <= 3) {
@@ -147,7 +136,6 @@ function searchAround(lines, lineIndex, charIndex) {
                 searchSum *= parseInt(searchedChars);
                 numberOfGears++;
             }
-            console.log(searchedChars);
         }
         searchedChars = '';
         let nextLine = lines[lineIndex + 1].split('');
@@ -207,7 +195,6 @@ function searchAround(lines, lineIndex, charIndex) {
                 searchSum *= parseInt(searchedChars);
                 numberOfGears++;
             }
-            console.log(searchedChars);
             searchedChars = '';
             i = 1;
             while (/[0-9]/.test(nextLine[charIndex + i]) && i <= 3) {
@@ -218,7 +205,6 @@ function searchAround(lines, lineIndex, charIndex) {
                 searchSum *= parseInt(searchedChars);
                 numberOfGears++;
             }
-            console.log(searchedChars);
         }
     }
     if (numberOfGears === 2) {
@@ -226,3 +212,5 @@ function searchAround(lines, lineIndex, charIndex) {
     }
     return 0;
 }
+exports.searchAround = searchAround;
+console.log(sumOfAllGears("./input3.txt"));
