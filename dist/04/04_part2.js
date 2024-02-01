@@ -24,58 +24,70 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
-let fileContent;
-const filePath = './dist/input4.txt';
-try {
-    const filePath = './dist/input4.txt';
-    fileContent = fs.readFileSync(filePath, 'utf-8');
-}
-catch (err) {
-    console.error('Error reading the file:', err);
-}
-const lines = fileContent === null || fileContent === void 0 ? void 0 : fileContent.split(/\r?\n/);
-let sumPoints = lines === null || lines === void 0 ? void 0 : lines.length;
-const cards = [];
-cards.push(0);
-const currentCard = cards.shift();
-lines === null || lines === void 0 ? void 0 : lines.forEach(line => {
-    let winnerNumbersString = line.split("|")[0].split(':')[1].trim().replace(/\s+/g, ' ');
-    let ownNumbersString = line.split("|")[1].trim().replace(/\s+/g, ' ');
-    let currentNumberStringArr = line.split("|")[0].split(':')[0].split(' ');
-    let currentNumber = parseInt(currentNumberStringArr[currentNumberStringArr.length - 1]);
-    let winnerNumbers = winnerNumbersString.split(' ');
-    let ownNumbers = ownNumbersString.split(' ');
-    let matches = ownNumbers.filter((item) => winnerNumbers.includes(item));
-    let i;
-    if (currentCard != undefined) {
-        let numberOfCopies = currentCard + matches.length;
-        for (i = currentCard; i < numberOfCopies; i++) {
-            cards.push(currentNumber + i);
-        }
+function sumOfTotalScratchcards(filePath) {
+    var _a;
+    let fileContent;
+    try {
+        fileContent = fs.readFileSync(filePath, "utf-8");
     }
-});
-while (cards.length > 0) {
-    if (sumPoints) {
-        sumPoints++;
+    catch (err) {
+        console.error("Error reading the file:", err);
     }
-    ;
-    let currentCard = cards.shift();
-    let line;
-    if (currentCard !== undefined) {
-        line = lines === null || lines === void 0 ? void 0 : lines[currentCard];
-    }
-    if (line) {
-        let winnerNumbersString = line.split("|")[0].split(':')[1].trim().replace(/\s+/g, ' ');
-        let ownNumbersString = line.split("|")[1].trim().replace(/\s+/g, ' ');
-        let winnerNumbers = winnerNumbersString.split(' ');
-        let ownNumbers = ownNumbersString.split(' ');
+    const lines = fileContent === null || fileContent === void 0 ? void 0 : fileContent.split(/\r?\n/);
+    let cardMathes = new Map();
+    let sumPoints = 0;
+    sumPoints = (_a = lines === null || lines === void 0 ? void 0 : lines.length) !== null && _a !== void 0 ? _a : 0;
+    const cards = [];
+    cards.push(0);
+    const currentCard = cards.shift();
+    lines === null || lines === void 0 ? void 0 : lines.forEach((line, index) => {
+        let winnerNumbersString = line
+            .split("|")[0]
+            .split(":")[1]
+            .trim()
+            .replace(/\s+/g, " ");
+        let ownNumbersString = line
+            .split("|")[1]
+            .trim()
+            .replace(/\s+/g, " ");
+        let currentNumberStringArr = line
+            .split("|")[0]
+            .split(":")[0]
+            .split(" ");
+        let currentNumber = parseInt(currentNumberStringArr[currentNumberStringArr.length - 1]);
+        let winnerNumbers = winnerNumbersString.split(" ");
+        let ownNumbers = ownNumbersString.split(" ");
         let matches = ownNumbers.filter((item) => winnerNumbers.includes(item));
+        cardMathes.set(index, matches.length);
         let i;
         if (currentCard != undefined) {
-            for (i = 1; i <= matches.length; i++) {
-                cards.push(currentCard + i);
+            let numberOfCopies = currentCard + matches.length;
+            for (i = currentCard; i < numberOfCopies; i++) {
+                cards.push(currentNumber + i);
             }
         }
+    });
+    let currentCardIndex = 0;
+    while (cards.length > currentCardIndex) {
+        if (sumPoints) {
+            sumPoints++;
+        }
+        let currentCard = cards[currentCardIndex];
+        let line;
+        if (currentCard !== undefined) {
+            line = lines === null || lines === void 0 ? void 0 : lines[currentCard];
+        }
+        if (line) {
+            let i;
+            if (currentCard != undefined) {
+                for (i = 1; i <= cardMathes.get(currentCard); i++) {
+                    cards.push(currentCard + i);
+                }
+            }
+        }
+        currentCardIndex++;
     }
+    return sumPoints;
 }
-console.log(sumPoints);
+exports.default = sumOfTotalScratchcards;
+console.log(sumOfTotalScratchcards("./input4.txt"));

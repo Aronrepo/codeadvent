@@ -24,25 +24,34 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
-let fileContent;
-const filePath = './input4.txt';
-try {
-    const filePath = './input4.txt';
-    fileContent = fs.readFileSync(filePath, 'utf-8');
-}
-catch (err) {
-    console.error('Error reading the file:', err);
-}
-const lines = fileContent === null || fileContent === void 0 ? void 0 : fileContent.split(/\r?\n/);
-let sumPoints = 0;
-lines === null || lines === void 0 ? void 0 : lines.forEach(line => {
-    let winnerNumbersString = line.split("|")[0].split(':')[1].trim().replace(/\s+/g, ' ');
-    let ownNumbersString = line.split("|")[1].trim().replace(/\s+/g, ' ');
-    let winnerNumbers = winnerNumbersString.split(' ');
-    let ownNumbers = ownNumbersString.split(' ');
-    let matches = ownNumbers.filter((item) => winnerNumbers.includes(item));
-    if (matches.length !== 0) {
-        sumPoints += Math.pow(2, matches.length - 1);
+function sumOfTotalPoints(filePath) {
+    let fileContent;
+    try {
+        fileContent = fs.readFileSync(filePath, "utf-8");
     }
-});
-console.log(sumPoints);
+    catch (err) {
+        console.error("Error reading the file:", err);
+    }
+    const lines = fileContent === null || fileContent === void 0 ? void 0 : fileContent.split(/\r?\n/);
+    let sumPoints = 0;
+    lines === null || lines === void 0 ? void 0 : lines.forEach((line) => {
+        let winnerNumbersString = line
+            .split("|")[0]
+            .split(":")[1]
+            .trim()
+            .replace(/\s+/g, " ");
+        let ownNumbersString = line
+            .split("|")[1]
+            .trim()
+            .replace(/\s+/g, " ");
+        let winnerNumbers = winnerNumbersString.split(" ");
+        let ownNumbers = ownNumbersString.split(" ");
+        let matches = ownNumbers.filter((item) => winnerNumbers.includes(item));
+        if (matches.length !== 0) {
+            sumPoints += Math.pow(2, matches.length - 1);
+        }
+    });
+    return sumPoints;
+}
+console.log(sumOfTotalPoints("./input4.txt"));
+exports.default = sumOfTotalPoints;
