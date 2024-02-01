@@ -1,86 +1,92 @@
-import * as fs from 'fs';
+import * as fs from "fs";
 
 function sumOfTotalScratchcards(filePath: string): number {
+  let fileContent: string | undefined;
 
-let fileContent: string | undefined; 
+  try {
+    fileContent = fs.readFileSync(filePath, "utf-8"); //read input file
+  } catch (err) {
+    console.error("Error reading the file:", err);
+  }
 
+  const lines = fileContent?.split(/\r?\n/); //split input file's lines into arrays
 
-try {
+  let cardMathes = new Map();
 
-  fileContent = fs.readFileSync(filePath, 'utf-8');//read input file
+  let sumPoints: number = 0;
 
-} catch (err) {
-  console.error('Error reading the file:', err);
-}
+  sumPoints = lines?.length ?? 0; //at least the number of initial cards will be added to the total sum
 
-const lines = fileContent?.split(/\r?\n/);//split input file's lines into arrays
+  const cards: number[] = []; //this array will be populated the additional cards which are created if there is a winner
+  cards.push(0);
 
-let cardMathes = new Map();
+  const currentCard = cards.shift(); //this variable stores the card which has to be examined. In this case this shift will be used once
+  //iterate through the initial array of lines
+  lines?.forEach((line, index) => {
+    let winnerNumbersString: string = line
+      .split("|")[0]
+      .split(":")[1]
+      .trim()
+      .replace(/\s+/g, " ");
+    let ownNumbersString: string = line
+      .split("|")[1]
+      .trim()
+      .replace(/\s+/g, " ");
 
-let sumPoints:number = 0;
+    let currentNumberStringArr: string[] = line
+      .split("|")[0]
+      .split(":")[0]
+      .split(" ");
+    let currentNumber: number = parseInt(
+      currentNumberStringArr[currentNumberStringArr.length - 1]
+    );
 
-sumPoints = lines?.length ?? 0; //at least the number of initial cards will be added to the total sum
+    let winnerNumbers: string[] = winnerNumbersString.split(" ");
+    let ownNumbers: string[] = ownNumbersString.split(" ");
 
+    let matches = ownNumbers.filter((item) => winnerNumbers.includes(item)); //get matches
 
-const cards:number[] = [];//this array will be populated the additional cards which are created if there is a winner
-cards.push(0);
+    cardMathes.set(index, matches.length);
 
-const currentCard = cards.shift();//this variable stores the card which has to be examined. In this case this shift will be used once
-//iterate through the initial array of lines
-    lines?.forEach((line, index) => {
-        let winnerNumbersString:string = line.split("|")[0].split(':')[1].trim().replace(/\s+/g, ' ');
-        let ownNumbersString:string = line.split("|")[1].trim().replace(/\s+/g, ' ');
+    let i: number;
 
-        let currentNumberStringArr:string[] = line.split("|")[0].split(':')[0].split(' ');
-        let currentNumber:number = parseInt(currentNumberStringArr[currentNumberStringArr.length - 1]);
-
-
-        let winnerNumbers:string[] = winnerNumbersString.split(' ');
-        let ownNumbers:string[] = ownNumbersString.split(' ');
-
-
-        let matches = ownNumbers.filter((item) => winnerNumbers.includes(item));//get matches
-
-        cardMathes.set(index, matches.length);
-
-
-        let i:number;
-        
-        if(currentCard != undefined) {//populate additional cards based on the number of matches
-            let numberOfCopies:number = currentCard + matches.length;
-            for(i = currentCard; i < numberOfCopies; i++) {
-                cards.push(currentNumber + i);
-            }
-        }
+    if (currentCard != undefined) {
+      //populate additional cards based on the number of matches
+      let numberOfCopies: number = currentCard + matches.length;
+      for (i = currentCard; i < numberOfCopies; i++) {
+        cards.push(currentNumber + i);
+      }
     }
-    )
+  });
 
-let currentCardIndex:number = 0;
-//loop through the additional cards
-while(cards.length > currentCardIndex) {
-    if(sumPoints) {sumPoints++};
+  let currentCardIndex: number = 0;
+  //loop through the additional cards
+  while (cards.length > currentCardIndex) {
+    if (sumPoints) {
+      sumPoints++;
+    }
     let currentCard = cards[currentCardIndex];
-    
+
     let line: string | undefined;
     if (currentCard !== undefined) {
-        line = lines?.[currentCard];
+      line = lines?.[currentCard];
     }
-   
 
-    if(line) {
-    
-        let i:number;
-        
-        if(currentCard != undefined) {//populate additional cards based on the number of matches
-            for(i = 1; i <= cardMathes.get(currentCard); i++) {
-                cards.push(currentCard + i);
-            }
+    if (line) {
+      let i: number;
+
+      if (currentCard != undefined) {
+        //populate additional cards based on the number of matches
+        for (i = 1; i <= cardMathes.get(currentCard); i++) {
+          cards.push(currentCard + i);
         }
+      }
     }
     currentCardIndex++;
+  }
+  return sumPoints;
 }
-return sumPoints;
-}
+
+export default sumOfTotalScratchcards;
+
 console.log(sumOfTotalScratchcards("./input4.txt"));
-
-
