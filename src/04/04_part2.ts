@@ -1,55 +1,52 @@
 import * as fs from 'fs';
 
+function sumOfTotalScratchcards(filePath: string): number {
+
 let fileContent: string | undefined; 
 
-const filePath = './dist/input4.txt';
 
 try {
-  const filePath = './dist/input4.txt';
 
-  fileContent = fs.readFileSync(filePath, 'utf-8');
+  fileContent = fs.readFileSync(filePath, 'utf-8');//read input file
 
 } catch (err) {
   console.error('Error reading the file:', err);
 }
 
-const lines = fileContent?.split(/\r?\n/);
+const lines = fileContent?.split(/\r?\n/);//split input file's lines into arrays
 
-let sumPoints = lines?.length;
+let cardMathes = new Map();
+
+let sumPoints:number = 0;
+
+sumPoints = lines?.length ?? 0; //at least the number of initial cards will be added to the total sum
 
 
-const cards:number[] = [];
+const cards:number[] = [];//this array will be populated the additional cards which are created if there is a winner
 cards.push(0);
 
-const currentCard = cards.shift();
-
-    lines?.forEach(line => {
+const currentCard = cards.shift();//this variable stores the card which has to be examined. In this case this shift will be used once
+//iterate through the initial array of lines
+    lines?.forEach((line, index) => {
         let winnerNumbersString:string = line.split("|")[0].split(':')[1].trim().replace(/\s+/g, ' ');
         let ownNumbersString:string = line.split("|")[1].trim().replace(/\s+/g, ' ');
 
         let currentNumberStringArr:string[] = line.split("|")[0].split(':')[0].split(' ');
         let currentNumber:number = parseInt(currentNumberStringArr[currentNumberStringArr.length - 1]);
 
-        //console.log(currentNumber);
-
-        //console.log(winnerNumbers.split(':')[1].trim());
 
         let winnerNumbers:string[] = winnerNumbersString.split(' ');
         let ownNumbers:string[] = ownNumbersString.split(' ');
 
-        //console.log(winnerNumbers);
-        //console.log(ownNumbers);
 
-        let matches = ownNumbers.filter((item) => winnerNumbers.includes(item));
+        let matches = ownNumbers.filter((item) => winnerNumbers.includes(item));//get matches
 
-        //console.log(matches.length);
+        cardMathes.set(index, matches.length);
+
 
         let i:number;
-        //console.log(currentCard);
         
-        //console.log(matches.length);
-        
-        if(currentCard != undefined) {
+        if(currentCard != undefined) {//populate additional cards based on the number of matches
             let numberOfCopies:number = currentCard + matches.length;
             for(i = currentCard; i < numberOfCopies; i++) {
                 cards.push(currentNumber + i);
@@ -58,19 +55,12 @@ const currentCard = cards.shift();
     }
     )
 
-    //console.log(cards);
-    
-
-    
-
-while(cards.length > 0) {
+let currentCardIndex:number = 0;
+//loop through the additional cards
+while(cards.length > currentCardIndex) {
     if(sumPoints) {sumPoints++};
-    let currentCard = cards.shift();
+    let currentCard = cards[currentCardIndex];
     
-    //console.log(sumPoints);
-    //console.log('asd');
-    //if(currentCard == undefined) {currentCard = 0}
-
     let line: string | undefined;
     if (currentCard !== undefined) {
         line = lines?.[currentCard];
@@ -79,32 +69,18 @@ while(cards.length > 0) {
 
     if(line) {
     
-        let winnerNumbersString:string = line.split("|")[0].split(':')[1].trim().replace(/\s+/g, ' ');
-        let ownNumbersString:string = line.split("|")[1].trim().replace(/\s+/g, ' ');
-
-        //let currentNumberStringArr:string[] = line.split("|")[0].split(':')[0].split(' ');
-        //let currentNumber:number = parseInt(currentNumberStringArr[currentNumberStringArr.length - 1]);
-
-        let winnerNumbers:string[] = winnerNumbersString.split(' ');
-        let ownNumbers:string[] = ownNumbersString.split(' ');
-
-
-        let matches = ownNumbers.filter((item) => winnerNumbers.includes(item));
-
-
         let i:number;
         
-        if(currentCard != undefined) {
-            for(i = 1; i <= matches.length; i++) {
+        if(currentCard != undefined) {//populate additional cards based on the number of matches
+            for(i = 1; i <= cardMathes.get(currentCard); i++) {
                 cards.push(currentCard + i);
             }
         }
     }
-
-        
-        
-    
+    currentCardIndex++;
 }
-console.log(sumPoints);
+return sumPoints;
+}
+console.log(sumOfTotalScratchcards("./input4.txt"));
 
 
