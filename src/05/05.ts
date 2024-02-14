@@ -110,4 +110,4 @@ function getCorrespondNumber(actualMap: number[][], seed: number): number {
   return seed;
 }
 
-export default lowestLocationNumber;
+export default {lowestLocationNumber, getMappingFromString, getCorrespondNumber};
