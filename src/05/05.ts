@@ -7,10 +7,10 @@ function lowestLocationNumber(filePath: string, seeds: number[]): number {
     fileContent = fs.readFileSync(filePath, "utf-8");
   } catch (err) {
     console.error("Error reading the file:", err);
+    return 0;
   }
 
   const lines = fileContent?.split(/\r?\n/);
-  //console.log(lines);
 
   let seedToSoilNumberArr: number[][] = [];
   let soilToFertilizerNumberArr: number[][] = [];
@@ -110,4 +110,4 @@ function getCorrespondNumber(actualMap: number[][], seed: number): number {
   return seed;
 }
 
-export default {lowestLocationNumber, getMappingFromString, getCorrespondNumber};
+export {lowestLocationNumber, getMappingFromString, getCorrespondNumber};

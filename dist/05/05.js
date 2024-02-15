@@ -23,6 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getCorrespondNumber = exports.getMappingFromString = exports.lowestLocationNumber = void 0;
 const fs = __importStar(require("fs"));
 function lowestLocationNumber(filePath, seeds) {
     let fileContent;
@@ -31,6 +32,7 @@ function lowestLocationNumber(filePath, seeds) {
     }
     catch (err) {
         console.error("Error reading the file:", err);
+        return 0;
     }
     const lines = fileContent === null || fileContent === void 0 ? void 0 : fileContent.split(/\r?\n/);
     let seedToSoilNumberArr = [];
@@ -60,6 +62,7 @@ function lowestLocationNumber(filePath, seeds) {
     ];
     return getLowestLocationFromSeed(maps, seeds);
 }
+exports.lowestLocationNumber = lowestLocationNumber;
 console.log(lowestLocationNumber("./input5.txt", [2041142901, 113138307, 302673608, 467797997, 1787644422, 208119536, 143576771, 99841043, 4088720102, 111819874, 946418697, 13450451, 3459931852, 262303791, 2913410855, 533641609, 2178733435, 26814354, 1058342395, 175406592]));
 function getMappingFromString(lines, typeOfMap) {
     let searchedIndex = lines
@@ -82,6 +85,7 @@ function getMappingFromString(lines, typeOfMap) {
     });
     return result;
 }
+exports.getMappingFromString = getMappingFromString;
 function getLowestLocationFromSeed(maps, seeds) {
     let lowestNumber = Number.POSITIVE_INFINITY;
     for (const seed of seeds) {
@@ -103,4 +107,4 @@ function getCorrespondNumber(actualMap, seed) {
     }
     return seed;
 }
-exports.default = lowestLocationNumber;
+exports.getCorrespondNumber = getCorrespondNumber;
