@@ -2,6 +2,7 @@ import * as fs from "fs";
 import {
   lowestLocationNumber,
   getMappingFromString,
+  getLowestLocationFromSeed,
   getCorrespondNumber,
 } from "./05";
 
@@ -78,3 +79,68 @@ humidity-to-location map:
     mockConsoleError.mockRestore();
   });
 });
+
+describe("getLowestLocationFromSeed function", () => {
+    it("should return the lowest location number from seeds and maps", () => {
+      const maps: number[][][] = [
+
+        [
+          [50,98, 2],
+          [52, 50, 48],
+        ],
+        [
+          [0, 15, 37],
+          [37, 52, 2],
+          [39, 0, 15]
+        ],
+      ];
+      const seeds: number[] = [79, 14, 55, 13];
+
+      const result = getLowestLocationFromSeed(maps, seeds);
+      expect(result).toBe(52); 
+    });
+
+    it("should return the seed if it doesn't fall into any range", () => {
+        const map: number[][] = [[1, 0, 5]];
+        const result = getCorrespondNumber(map, 7);
+        expect(result).toBe(7);
+    });
+
+    it("should return the correct corresponding number if seed falls into the last range", () => {
+        const map: number[][] = [[1, 5, 10]];
+        const result = getCorrespondNumber(map, 8);
+        expect(result).toBe(4);
+      });
+  
+
+  });
+
+
+  describe("getMappingFromString function", () => {
+    it("should return correct mapping from input lines", () => {
+      const inputLines: string[] = [
+        "seed-to-soil map:",
+        "1 0 5",
+        "2 5 10",
+        "",
+        "soil-to-fertilizer map:",
+        "3 10 15",
+        "4 25 10",
+        "",
+      ];
+      const expectedMapping = [
+        [
+          [1, 0, 5],
+          [2, 5, 10],
+        ],
+        [
+          [3, 10, 15],
+          [4, 25, 10],
+        ],
+      ];
+      const result = getMappingFromString(inputLines);
+      expect(result).toEqual(expectedMapping);
+    });
+  
+
+  });
