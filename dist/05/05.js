@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCorrespondNumber = exports.getMappingFromString = exports.lowestLocationNumber = void 0;
+exports.getCorrespondNumber = exports.getLowestLocationFromSeed = exports.getMappingFromString = exports.lowestLocationNumber = void 0;
 const fs = __importStar(require("fs"));
 function lowestLocationNumber(filePath, seeds) {
     let fileContent;
@@ -35,54 +35,35 @@ function lowestLocationNumber(filePath, seeds) {
         return 0;
     }
     const lines = fileContent === null || fileContent === void 0 ? void 0 : fileContent.split(/\r?\n/);
-    let seedToSoilNumberArr = [];
-    let soilToFertilizerNumberArr = [];
-    let fertilizerToWaterNumberArr = [];
-    let waterToLightNumberArr = [];
-    let lightToTemperatureNumberArr = [];
-    let temperatureToHumidityNumberArr = [];
-    let humidityToLocationNumberArr = [];
-    if (lines) {
-        seedToSoilNumberArr = getMappingFromString(lines, "seed-to-soil map:");
-        soilToFertilizerNumberArr = getMappingFromString(lines, "soil-to-fertilizer map:");
-        fertilizerToWaterNumberArr = getMappingFromString(lines, "fertilizer-to-water map:");
-        waterToLightNumberArr = getMappingFromString(lines, "water-to-light map:");
-        lightToTemperatureNumberArr = getMappingFromString(lines, "light-to-temperature map:");
-        temperatureToHumidityNumberArr = getMappingFromString(lines, "temperature-to-humidity map:");
-        humidityToLocationNumberArr = getMappingFromString(lines, "humidity-to-location map:");
+    if (!lines) {
+        console.error("Error splitting file content into lines");
+        return 0;
     }
-    let maps = [
-        seedToSoilNumberArr,
-        soilToFertilizerNumberArr,
-        fertilizerToWaterNumberArr,
-        waterToLightNumberArr,
-        lightToTemperatureNumberArr,
-        temperatureToHumidityNumberArr,
-        humidityToLocationNumberArr,
-    ];
+    const maps = getMappingFromString(lines);
     return getLowestLocationFromSeed(maps, seeds);
 }
 exports.lowestLocationNumber = lowestLocationNumber;
 console.log(lowestLocationNumber("./input5.txt", [2041142901, 113138307, 302673608, 467797997, 1787644422, 208119536, 143576771, 99841043, 4088720102, 111819874, 946418697, 13450451, 3459931852, 262303791, 2913410855, 533641609, 2178733435, 26814354, 1058342395, 175406592]));
-function getMappingFromString(lines, typeOfMap) {
-    let searchedIndex = lines
-        ? lines === null || lines === void 0 ? void 0 : lines.findIndex((item) => item === typeOfMap)
-        : 0;
-    let searchSpaceIndex = (lines
-        ? lines.slice(searchedIndex + 1).findIndex((item) => item === "")
-        : 0) +
-        searchedIndex +
-        1;
-    let mappingStringArr = lines
-        ? lines.slice(searchedIndex + 1, searchSpaceIndex)
-        : [];
-    const result = [];
-    mappingStringArr.forEach((mapItem) => {
-        let currentArray = mapItem
-            .split(" ")
-            .map((item) => parseInt(item));
-        result.push(currentArray);
-    });
+function getMappingFromString(lines) {
+    let result = [];
+    for (let i = 0; i < lines.length; i++) {
+        let pattern1 = /^[a-zA-Z]/;
+        let pattern2 = /^$/;
+        let pattern3 = /^\d/;
+        let mapLine = [];
+        let mapLineIndex = 0;
+        if (pattern1.test(lines[i])) {
+            while (!pattern2.test(lines[mapLineIndex + i])) {
+                let actualNumberArr = [];
+                if (pattern3.test(lines[mapLineIndex + i])) {
+                    actualNumberArr = lines[mapLineIndex + i].split(' ').map((item) => parseInt(item));
+                    mapLine.push(actualNumberArr);
+                }
+                mapLineIndex++;
+            }
+            result.push(mapLine);
+        }
+    }
     return result;
 }
 exports.getMappingFromString = getMappingFromString;
@@ -99,6 +80,7 @@ function getLowestLocationFromSeed(maps, seeds) {
     }
     return lowestNumber;
 }
+exports.getLowestLocationFromSeed = getLowestLocationFromSeed;
 function getCorrespondNumber(actualMap, seed) {
     for (const map of actualMap) {
         if (seed >= map[1] && seed <= map[1] + map[2]) {

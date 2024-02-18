@@ -4,82 +4,47 @@ function lowestLocationNumber(filePath: string, seeds: number[]): number {
   let fileContent: string | undefined;
 
   try {
-    fileContent = fs.readFileSync(filePath, "utf-8");
+    fileContent = fs.readFileSync(filePath, "utf-8"); //read input file
   } catch (err) {
     console.error("Error reading the file:", err);
     return 0;
   }
 
-  const lines = fileContent?.split(/\r?\n/);
-
-  let seedToSoilNumberArr: number[][] = [];
-  let soilToFertilizerNumberArr: number[][] = [];
-  let fertilizerToWaterNumberArr: number[][] = [];
-  let waterToLightNumberArr: number[][] = [];
-  let lightToTemperatureNumberArr: number[][] = [];
-  let temperatureToHumidityNumberArr: number[][] = [];
-  let humidityToLocationNumberArr: number[][] = [];
-
-  if (lines) {
-    seedToSoilNumberArr = getMappingFromString(lines, "seed-to-soil map:");
-    soilToFertilizerNumberArr = getMappingFromString(
-      lines,
-      "soil-to-fertilizer map:"
-    );
-    fertilizerToWaterNumberArr = getMappingFromString(
-      lines,
-      "fertilizer-to-water map:"
-    );
-    waterToLightNumberArr = getMappingFromString(lines, "water-to-light map:");
-    lightToTemperatureNumberArr = getMappingFromString(
-      lines,
-      "light-to-temperature map:"
-    );
-    temperatureToHumidityNumberArr = getMappingFromString(
-      lines,
-      "temperature-to-humidity map:"
-    );
-    humidityToLocationNumberArr = getMappingFromString(
-      lines,
-      "humidity-to-location map:"
-    );
+  const lines = fileContent?.split(/\r?\n/); //split input file's lines into arrays
+  if (!lines) {
+    console.error("Error splitting file content into lines");
+    return 0;
   }
 
-  let maps: number[][][] = [
-    seedToSoilNumberArr,
-    soilToFertilizerNumberArr,
-    fertilizerToWaterNumberArr,
-    waterToLightNumberArr,
-    lightToTemperatureNumberArr,
-    temperatureToHumidityNumberArr,
-    humidityToLocationNumberArr,
-  ];
+  const maps: number[][][] = getMappingFromString(lines);
 
   return getLowestLocationFromSeed(maps, seeds);
 }
 console.log(lowestLocationNumber("./input5.txt", [2041142901, 113138307, 302673608, 467797997, 1787644422, 208119536, 143576771, 99841043, 4088720102, 111819874, 946418697, 13450451, 3459931852, 262303791, 2913410855, 533641609, 2178733435, 26814354, 1058342395, 175406592]));
 
-function getMappingFromString(lines: String[], typeOfMap: String): number[][] {
-  let searchedIndex: number = lines
-    ? lines?.findIndex((item) => item === typeOfMap)
-    : 0;
-  let searchSpaceIndex: number =
-    (lines
-      ? lines.slice(searchedIndex + 1).findIndex((item) => item === "")
-      : 0) +
-    searchedIndex +
-    1;
-  let mappingStringArr = lines
-    ? lines.slice(searchedIndex + 1, searchSpaceIndex)
-    : [];
+function getMappingFromString(lines: string[]): number[][][] {
+  let result:number[][][] = [];
+  for (let i = 0; i < lines.length; i++) {
+    let pattern1 = /^[a-zA-Z]/;
+    let pattern2 = /^$/;
+    let pattern3 = /^\d/;
+    let mapLine:number[][] =[];
+    let mapLineIndex:number = 0;
+    if(pattern1.test(lines[i])) {
+      while(!pattern2.test(lines[mapLineIndex + i])) {
+        let actualNumberArr:number[] = [];
+        if(pattern3.test(lines[mapLineIndex + i])) {
+          actualNumberArr = lines[mapLineIndex + i].split(' ').map((item) => parseInt(item));
+          mapLine.push(actualNumberArr);
 
-  const result: number[][] = [];
-  mappingStringArr.forEach((mapItem) => {
-    let currentArray: number[] = mapItem
-      .split(" ")
-      .map((item) => parseInt(item));
-    result.push(currentArray);
-  });
+        }
+        mapLineIndex++;
+      }
+      result.push(mapLine);
+      
+    }
+  }
+  
   return result;
 }
 
@@ -110,4 +75,4 @@ function getCorrespondNumber(actualMap: number[][], seed: number): number {
   return seed;
 }
 
-export {lowestLocationNumber, getMappingFromString, getCorrespondNumber};
+export {lowestLocationNumber, getMappingFromString, getLowestLocationFromSeed,  getCorrespondNumber};
