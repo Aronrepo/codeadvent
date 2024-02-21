@@ -6,6 +6,45 @@ Advent of Code is an annual event that takes place every December, inviting part
 
 My repository contains the solution for the first five days. It also contains unit tests of the implemented methods.
 
+## Table of Contents
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Day 1 Trebuchet?!](#day-1-trebuchet)
+- [Day 2: Cube Conundrum](#day-2-cube-conundrum)
+- [Day 3: Gear Ratios](#day-3-gear-ratios)
+- [Day 4 Scratchcards](#day-4-scratchcards)
+- [Day 5 If You Give A Seed A Fertilizer](#day-5-if-you-give-a-seed-a-fertilizer)
+
+## Getting Started
+
+### Prerequisites
+
+Node.js
+Node Package Manager
+
+## Installation
+
+If you want to run the application by yourself you can do it by following these steps:
+
+1. Pull the image from Dockerhub by using a bash terminal:
+
+   ```sh
+   git clone git@github.com:Aronrepo/codeadvent.git
+
+2. Navigate to the project's destination directory:
+
+    cd codeadvent/dist
+
+3. Install the required dependencies:
+
+    npm install
+
+4. Run the desired javascript file
+
+    example:
+    cd 01
+    node 01.js
+
 ## Day 1 Trebuchet?!
 
 Something is wrong with global snow production, and you've been selected to take a look. The Elves have even given you a map; on it, they've used stars to mark the top fifty locations that are likely to be having problems.
@@ -35,7 +74,7 @@ Consider your entire calibration document. What is the sum of all of the calibra
 
 [Calibration document](dist/01/input1.txt)
 
-## Day 2: Cube Conundrum
+## Day 2 Cube Conundrum
 
 You're launched high into the atmosphere! The apex of your trajectory just barely reaches the surface of a large island floating in the sky. You gently land in a fluffy pile of leaves. It's quite cold, but you don't see much snow. An Elf runs over to greet you.
 
@@ -53,7 +92,7 @@ Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue  
 Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red  
 Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red  
-Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green  
+Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
 
 In game 1, three sets of cubes are revealed from the bag (and then put back again). The first set is 3 blue cubes and 4 red cubes; the second set is 1 red cube, 2 green cubes, and 6 blue cubes; the third set is only 2 green cubes.
 
@@ -65,7 +104,7 @@ Determine which games would have been possible if the bag had been loaded with o
 
 [Puzzle input](dist/02/input2.txt)
 
-## Day 3: Gear Ratios
+## Day 3 Gear Ratios
 
 You and the Elf eventually reach a gondola lift station; he says the gondola lift will take you up to the water source, but this is as far as he can bring you. You go inside.
 
@@ -82,17 +121,18 @@ The engine schematic (your puzzle input) consists of a visual representation of 
 Here is an example engine schematic:
 
 ```javascript
-467..114..  
-...*......  
-..35..633.  
-......#...  
-617*......  
-.....+.58.  
-..592.....  
-......755.  
-...$.*....  
-.664.598..  
+467..114..
+...*......
+..35..633.
+......#...
+617*......
+.....+.58.
+..592.....
+......755.
+...$.*....
+.664.598..
 ```
+
 In this schematic, two numbers are not part numbers because they are not adjacent to a symbol: 114 (top right) and 58 (middle right). Every other number is adjacent to a symbol and so is a part number; their sum is 4361.
 
 Of course, the actual engine schematic is much larger. What is the sum of all of the part numbers in the engine schematic?
@@ -107,29 +147,30 @@ You don't seem to be going very fast, though. Maybe something is still wrong? Fo
 
 Before you can explain the situation, she suggests that you look out the window. There stands the engineer, holding a phone in one hand and waving with the other. You're going so slowly that you haven't even left the station. You exit the gondola.
 
-The missing part wasn't the only issue - one of the gears in the engine is wrong. A gear is any * symbol that is adjacent to exactly two part numbers. Its gear ratio is the result of multiplying those two numbers together.
+The missing part wasn't the only issue - one of the gears in the engine is wrong. A gear is any \* symbol that is adjacent to exactly two part numbers. Its gear ratio is the result of multiplying those two numbers together.
 
 This time, you need to find the gear ratio of every gear and add them all up so that the engineer can figure out which gear needs to be replaced.
 
 Consider the same engine schematic again:
+
 ```javascript
-467..114..  
-...*......  
-..35..633.  
-......#...  
-617*......  
-.....+.58.  
-..592.....  
-......755.  
-...$.*....  
-.664.598..  
+467..114..
+...*......
+..35..633.
+......#...
+617*......
+.....+.58.
+..592.....
+......755.
+...$.*....
+.664.598..
 ```
 
-In this schematic, there are two gears. The first is in the top left; it has part numbers 467 and 35, so its gear ratio is 16345. The second gear is in the lower right; its gear ratio is 451490. (The * adjacent to 617 is not a gear because it is only adjacent to one part number.) Adding up all of the gear ratios produces 467835.
+In this schematic, there are two gears. The first is in the top left; it has part numbers 467 and 35, so its gear ratio is 16345. The second gear is in the lower right; its gear ratio is 451490. (The \* adjacent to 617 is not a gear because it is only adjacent to one part number.) Adding up all of the gear ratios produces 467835.
 
 What is the sum of all of the gear ratios in your engine schematic?
 
-## Day 4: Scratchcards
+## Day 4 Scratchcards
 
 The gondola takes you up. Strangely, though, the ground doesn't seem to be coming with you; you're not climbing a mountain. As the circle of Snow Island recedes below you, an entire new landmass suddenly appears above you! The gondola carries you to the surface of the new island and lurches into the station.
 
@@ -146,6 +187,7 @@ The Elf leads you over to the pile of colorful cards. There, you discover dozens
 As far as the Elf has been able to figure out, you have to figure out which of the numbers you have appear in the list of winning numbers. The first match makes the card worth one point and each match after the first doubles the point value of that card.
 
 For example:
+
 ```javascript
 Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
@@ -154,6 +196,7 @@ Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
 Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
 Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11
 ```
+
 In the above example, card 1 has five winning numbers (41, 48, 83, 86, and 17) and eight numbers you have (83, 86, 6, 31, 17, 9, 48, and 53). Of the numbers you have, four of them (48, 83, 17, and 86) are winning numbers! That means card 1 is worth 8 points (1 for the first match, then doubled three times for each of the three matches after the first).
 
 Card 2 has two winning numbers (32 and 61), so it is worth 2 points.
@@ -178,6 +221,7 @@ Specifically, you win copies of the scratchcards below the winning card equal to
 Copies of scratchcards are scored like normal scratchcards and have the same card number as the card they copied. So, if you win a copy of card 10 and it has 5 matching numbers, it would then win a copy of the same cards that the original card 10 won: cards 11, 12, 13, 14, and 15. This process repeats until none of the copies cause you to win any more cards. (Cards will never make you copy a card past the end of the table.)
 
 This time, the above example goes differently:
+
 ```javascript
 Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
@@ -186,6 +230,7 @@ Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
 Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
 Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11
 ```
+
 Card 1 has four matching numbers, so you win one copy each of the next four cards: cards 2, 3, 4, and 5.
 Your original card 2 has two matching numbers, so you win one copy each of cards 3 and 4.
 Your copy of card 2 also wins one copy each of cards 3 and 4.
@@ -197,7 +242,7 @@ Once all of the originals and copies have been processed, you end up with 1 inst
 
 Process all of the original and copied scratchcards until no more scratchcards are won. Including the original set of scratchcards, how many total scratchcards do you end up with?
 
-## Day 5: If You Give A Seed A Fertilizer
+## Day 5 If You Give A Seed A Fertilizer
 
 You take the boat and find the gardener right where you were told he would be: managing a giant "garden" that looks more to you like a farm.
 
@@ -301,6 +346,14 @@ Seed 13, soil 13, fertilizer 52, water 41, light 34, temperature 34, humidity 35
 So, the lowest location number in this example is 35.
 
 What is the lowest location number that corresponds to any of the initial seed numbers?
+
+```javascript
+Input seeds:2041142901, 113138307, 302673608, 467797997, 1787644422, 208119536, 143576771,
+   99841043, 4088720102, 111819874, 946418697, 13450451, 3459931852, 262303791, 2913410855, 533641609, 2178733435,
+    26814354, 1058342395, 175406592
+```
+
+[List of Maps](dist/05/input5.txt)
 
 ## If You Give A Seed A Fertilizer (part 2)
 
