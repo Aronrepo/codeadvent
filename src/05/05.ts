@@ -20,9 +20,11 @@ function lowestLocationNumber(filePath: string, seeds: number[]): number {
 
   return getLowestLocationFromSeed(maps, seeds);
 }
-console.log(lowestLocationNumber("./input5.txt", [2041142901, 113138307, 302673608, 467797997, 1787644422, 208119536, 143576771, 99841043, 4088720102, 111819874, 946418697, 13450451, 3459931852, 262303791, 2913410855, 533641609, 2178733435, 26814354, 1058342395, 175406592]));
+console.log(lowestLocationNumber("./input5.txt", [2041142901, 113138307, 302673608, 467797997, 1787644422, 208119536, 143576771,
+   99841043, 4088720102, 111819874, 946418697, 13450451, 3459931852, 262303791, 2913410855, 533641609, 2178733435,
+    26814354, 1058342395, 175406592])); //call main function with input seeds
 
-function getMappingFromString(lines: string[]): number[][][] {
+function getMappingFromString(lines: string[]): number[][][] {//place map into 3d array 
   let result:number[][][] = [];
   for (let i = 0; i < lines.length; i++) {
     let pattern1 = /^[a-zA-Z]/;
@@ -66,7 +68,7 @@ function getLowestLocationFromSeed(
   return lowestNumber;
 }
 
-function getCorrespondNumber(actualMap: number[][], seed: number): number {
+function getCorrespondNumber(actualMap: number[][], seed: number): number {//get destination number from source number by using the actual map
   for (const map of actualMap) {
     if (seed >= map[1] && seed <= map[1] + map[2]) {
       return map[0] + seed - map[1];
